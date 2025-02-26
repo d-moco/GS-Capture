@@ -1,0 +1,28 @@
+<RCC>
+    <qresource prefix="/">
+        <file>image/swkj.jpg</file>
+        <file>image/dbj.png</file>
+        <file>image/hxfg.png</file>
+        <file>image/sjg.png</file>
+        <file>image/sjp.png</file>
+        <file>image/close.png</file>
+        <file>image/min.png</file>
+        <file>image/camera.png</file>
+        <file>image/image.png</file>
+        <file>image/max.png</file>
+        <file>image/windows.png</file>
+        <file>image/imgedit.png</file>
+        <file>image/setting.png</file>
+        <file>image/select.png</file>
+        <file>image/return.png</file>
+        <file>image/restore.png</file>
+        <file>image/F095.png</file>
+        <file>image/zoomin.png</file>
+        <file>image/zoomout.png</file>
+        <file>image/autosize.png</file>
+        <file>image/delete.png</file>
+        <file>image/add.png</file>
+        <file>image/left.png</file>
+        <file>image/right.png</file>
+    </qresource>
+</RCC>
