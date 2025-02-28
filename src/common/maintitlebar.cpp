@@ -109,24 +109,30 @@ void MainTitleBar::InitFunctionBtn(QHBoxLayout *pLayout)
     m_return->setToolButtonStyle(Qt::ToolButtonTextBesideIcon);
     m_return->setIcon(QIcon(":/image/return.png"));
     m_return->setIconSize(QSize(32, 32));
-    // "border: 2px solid #00CCFF;"
-    m_return->setStyleSheet(
-        "QToolButton {"
-        "background-color: #333; color: #00FFCC;"
-        "border: 2px;"
-        "border-radius: 8px;"
-        "padding: 6px;"
-        "font-size: 16px;"
+
+    QString strColor = "#1296db";
+    this->setStyleSheet(
+        "QToolButton "
+        "{"
+            "font-family: 'Microsoft YaHei';"
+            "background-color: #333; "
+            "color: " + strColor + ";"
+             "border: 2px;"
+             "border-radius: 8px;"
+             "padding: 6px;"
+             "font-size: 18px;"
         "}"
-        "QToolButton:hover {"
-        "background-color: #444;"
-        "border: 2px solid #00CCFF;"
-        "}"
-        "QToolButton:pressed {"
-        "background-color: #222;"
-        "border: 2px solid #00BBEE;"
-        "}"
-        );
+        "QToolButton:hover "
+        "{"
+             "background-color: #444;"
+             "border: 2px solid #00CCFF;"
+         "}"
+         "QToolButton:pressed "
+         "{"
+             "background-color: #222;"
+             "border: 2px solid #00BBEE;"
+         "}");
+
     pLayout->addWidget(m_return);
     connect(m_return, &QToolButton::released, this, [=](){
         emit sigSwitchWnd(eReturnWnd);
@@ -144,24 +150,6 @@ void MainTitleBar::InitFunctionBtn(QHBoxLayout *pLayout)
     m_camera->setToolButtonStyle(Qt::ToolButtonTextBesideIcon);
     m_camera->setIcon(QIcon(":/image/camera.png"));
     m_camera->setIconSize(QSize(32, 32));
-    // "border: 2px solid #00CCFF;"
-    m_camera->setStyleSheet(
-        "QToolButton {"
-        "background-color: #333; color: #00FFCC;"
-        "border: 2px;"
-        "border-radius: 8px;"
-        "padding: 6px;"
-        "font-size: 16px;"
-        "}"
-        "QToolButton:hover {"
-        "background-color: #444;"
-        "border: 2px solid #00CCFF;"
-        "}"
-        "QToolButton:pressed {"
-        "background-color: #222;"
-        "border: 2px solid #00BBEE;"
-        "}"
-        );
     pLayout->addWidget(m_camera);
 
     m_imgMgr = new QToolButton();
@@ -173,24 +161,6 @@ void MainTitleBar::InitFunctionBtn(QHBoxLayout *pLayout)
     m_imgMgr->setToolButtonStyle(Qt::ToolButtonTextBesideIcon);
     m_imgMgr->setIcon(QIcon(":/image/image.png"));
     m_imgMgr->setIconSize(QSize(32, 32));
-    m_imgMgr->setStyleSheet(
-        "QToolButton {"
-        "background-color: #333; "
-        "color: #00FFCC;"
-        "border: 2px;"
-        "border-radius: 8px;"
-        "padding: 6px;"
-        "font-size: 16px;"
-        "}"
-        "QToolButton:hover {"
-        "background-color: #444;"
-        "border: 2px solid #00CCFF;"
-        "}"
-        "QToolButton:pressed {"
-        "background-color: #222;"
-        "border: 2px solid #00BBEE;"
-        "}"
-        );
     pLayout->addWidget(m_imgMgr);
 
     m_setting = new QToolButton();
@@ -202,23 +172,6 @@ void MainTitleBar::InitFunctionBtn(QHBoxLayout *pLayout)
     m_setting->setToolButtonStyle(Qt::ToolButtonTextBesideIcon);
     m_setting->setIcon(QIcon(":/image/setting.png"));
     m_setting->setIconSize(QSize(32, 32));
-    m_setting->setStyleSheet(
-        "QToolButton {"
-        "background-color: #333; color: #00FFCC;"
-        "border: 2px;"
-        "border-radius: 8px;"
-        "padding: 6px;"
-        "font-size: 16px;"
-        "}"
-        "QToolButton:hover {"
-        "background-color: #444;"
-        "border: 2px solid #00CCFF;"
-        "}"
-        "QToolButton:pressed {"
-        "background-color: #222;"
-        "border: 2px solid #00BBEE;"
-        "}"
-        );
     pLayout->addWidget(m_setting);
 
     m_imgEdit = new QToolButton();
@@ -230,23 +183,6 @@ void MainTitleBar::InitFunctionBtn(QHBoxLayout *pLayout)
     m_imgEdit->setToolButtonStyle(Qt::ToolButtonTextBesideIcon);
     m_imgEdit->setIcon(QIcon(":/image/imgedit.png"));
     m_imgEdit->setIconSize(QSize(32, 32));
-    m_imgEdit->setStyleSheet(
-        "QToolButton {"
-        "background-color: #333; color: #00FFCC;"
-        "border: 2px;"
-        "border-radius: 8px;"
-        "padding: 6px;"
-        "font-size: 16px;"
-        "}"
-        "QToolButton:hover {"
-        "background-color: #444;"
-        "border: 2px solid #00CCFF;"
-        "}"
-        "QToolButton:pressed {"
-        "background-color: #222;"
-        "border: 2px solid #00BBEE;"
-        "}"
-        );
     pLayout->addWidget(m_imgEdit);
 
     pLayout->addStretch(1);

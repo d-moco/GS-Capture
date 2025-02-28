@@ -13,6 +13,31 @@ MainDialog::MainDialog(QWidget *parent) :
     this->setWindowFlags(Qt::FramelessWindowHint);
     this->setAttribute(Qt::WA_TranslucentBackground, true);
 
+    QString strColor = "#1296db";
+    this->setStyleSheet(
+        "QPushButton { padding: 2px;}"
+        "QToolButton "
+        "{"
+            "font-family: 'Microsoft YaHei';"
+            "background-color: #333; "
+            "color: " + strColor + ";"
+            "border: 2px;"
+            "border-radius: 8px;"
+            "padding: 6px;"
+            "font-size: 18px;"
+         "}"
+         "QToolButton:hover "
+         "{"
+             "background-color: #444;"
+             "border: 2px solid #00CCFF;"
+         "}"
+         "QToolButton:pressed "
+         "{"
+             "background-color: #222;"
+             "border: 2px solid #00BBEE;"
+         "}");
+
+
     m_titleBar = new MainTitleBar();
     connect(m_titleBar, &MainTitleBar::sigSwitchWnd, this, &MainDialog::onSwitchWindow);
     ui->horizontalLayout->addWidget(m_titleBar);

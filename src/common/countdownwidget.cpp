@@ -2,6 +2,7 @@
 #include "ui_countdownwidget.h"
 #include <QPaintEvent>
 #include <QPainter>
+#include <QRegExpValidator>
 
 CountDownWidget::CountDownWidget(QWidget *parent) :
     QWidget(parent),
@@ -18,6 +19,7 @@ CountDownWidget::CountDownWidget(QWidget *parent) :
                     "    background-color: #343434;"
                     "    border-radius: 10px;"
                     "    padding: 2px;"
+                    "    border:none;"
                     "}"
 
                     /* 科技感的输入框样式 */
@@ -30,6 +32,12 @@ CountDownWidget::CountDownWidget(QWidget *parent) :
                     "    font-size: 14px;" /* 字体大小 */
                     "}"
         );
+
+    QRegExp regExp("[0-9]*");
+    QRegExpValidator *validator = new QRegExpValidator(regExp, this);
+    ui->edit_min->setValidator(validator);
+    ui->edit_sec->setValidator(validator);
+    ui->edit_msec->setValidator(validator);
 }
 
 CountDownWidget::~CountDownWidget()

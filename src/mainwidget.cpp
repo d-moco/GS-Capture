@@ -33,7 +33,6 @@ void MainWidget::setWidgetType(EWindowType type)
 
 void MainWidget::initStyleSheet()
 {
-    //"background-color: #333; color: #00FFCC;"
     this->setStyleSheet("QPushButton { padding: 2px;}"
                         "QToolButton {"
                         "background-color: #404040; color: #00FFCC;"
