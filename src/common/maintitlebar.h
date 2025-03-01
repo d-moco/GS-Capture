@@ -4,6 +4,8 @@
 #include <QWidget>
 #include <QHBoxLayout>
 
+#include "istylesheet.h"
+
 class QLabel;
 class QPushButton;
 class QToolButton;
@@ -17,13 +19,15 @@ enum EWindowType {
     eImageEditWnd,
 };
 
-class MainTitleBar : public QWidget
+class MainTitleBar : public QWidget, public IStyleSheet
 {
     Q_OBJECT
 public:
     explicit MainTitleBar(QWidget *parent = nullptr);
 
     void setReturnIsShow(const bool bShow);
+
+    virtual void refeshStyleSheet(EThemeColor clr = ComStyleSheet->getThemeClr());
 private:
     void InitFunctionBtn(QHBoxLayout *m_pLayout);
 protected:

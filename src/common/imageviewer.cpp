@@ -163,6 +163,7 @@ void ImageViewer::open()
     initializeImageFileDialog(dialog, QFileDialog::AcceptOpen);
 
     while (dialog.exec() == QDialog::Accepted && !loadFile(dialog.selectedFiles().first())) {}
+    scrollArea->setWidgetResizable(true);
 }
 //! [1]
 
@@ -171,11 +172,13 @@ void ImageViewer::open()
 void ImageViewer::zoomIn()
 //! [9] //! [10]
 {
+    scrollArea->setWidgetResizable(false);
     scaleImage(1.25);
 }
 
 void ImageViewer::zoomOut()
 {
+    scrollArea->setWidgetResizable(false);
     scaleImage(0.8);
 }
 
@@ -183,21 +186,12 @@ void ImageViewer::zoomOut()
 void ImageViewer::normalSize()
 //! [11] //! [12]
 {
+    scrollArea->setWidgetResizable(true);
     imageLabel->adjustSize();
     scaleFactor = 1.0;
 }
 //! [12]
 
-//! [13]
-void ImageViewer::fitToWindow()
-//! [13] //! [14]
-{
-    //bool fitToWindow = fitToWindowAct->isChecked();
-    scrollArea->setWidgetResizable(true);
-    //if (!fitToWindow)
-        normalSize();
-    updateActions();
-}
 //! [17]
 void ImageViewer::createActions()
 //! [17] //! [18]

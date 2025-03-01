@@ -145,7 +145,7 @@ background-position: center;
               </font>
              </property>
              <property name="styleSheet">
-              <string notr="true">background-color: rgb(243, 205, 255);</string>
+              <string notr="true"/>
              </property>
              <property name="text">
               <string>核酸胶成像</string>

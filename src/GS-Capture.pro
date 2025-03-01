@@ -12,11 +12,13 @@ SOURCES += \
     basedialog.cpp \
     common/QtCustomStylesheet.cpp \
     common/circularbutton.cpp \
+    common/commonstylesheet.cpp \
     common/countdownwidget.cpp \
     common/grayscaleselector.cpp \
     common/imageviewer.cpp \
     common/imageviewtoolwidget.cpp \
     common/maintitlebar.cpp \
+    common/sigslotmgr.cpp \
     common/switchbuttoninside.cpp \
     common/titlebar.cpp \
     imageeditwidget.cpp \
@@ -31,12 +33,15 @@ HEADERS += \
     basedialog.h \
     common/QtCustomStylesheet.h \
     common/circularbutton.h \
+    common/commonstylesheet.h \
     common/countdownwidget.h \
     common/define.h \
     common/grayscaleselector.h \
     common/imageviewer.h \
     common/imageviewtoolwidget.h \
+    common/istylesheet.h \
     common/maintitlebar.h \
+    common/sigslotmgr.h \
     common/switchbuttoninside.h \
     common/titlebar.h \
     imageeditwidget.h \

@@ -8,6 +8,7 @@
 #include <QTimer>
 
 #include "themeset.h"
+#include "IStyleSheet.h"
 
 namespace Ui {
     class BaseDialog;
@@ -15,7 +16,7 @@ namespace Ui {
 
 class TitleBar;
 
-class BaseDialog : public QDialog
+class BaseDialog : public QDialog, public IStyleSheet
 {
     Q_OBJECT
 
@@ -23,6 +24,7 @@ public:
     explicit BaseDialog(QWidget *parent = nullptr);
     ~BaseDialog();
 
+    virtual void refeshStyleSheet(EThemeColor clr = ComStyleSheet->getThemeClr());
 protected:
     void paintEvent(QPaintEvent *event);
 private:
@@ -30,6 +32,8 @@ private:
     void initWidget();
     void initToolButton();
 
+signals:
+    void sigChangeTheme(EThemeColor clr);
 public slots:
     void onStyleManagerStylesheetChanged();
 

@@ -4,12 +4,13 @@
 #include <QMap>
 #include <QDialog>
 #include "maintitlebar.h"
+#include "istylesheet.h"
 
 namespace Ui {
 class MainDialog;
 }
 
-class MainDialog : public QDialog
+class MainDialog : public QDialog, public IStyleSheet
 {
     Q_OBJECT
 
@@ -17,6 +18,7 @@ public:
     explicit MainDialog(QWidget *parent = nullptr);
     ~MainDialog();
 
+    virtual void refeshStyleSheet(EThemeColor clr = ComStyleSheet->getThemeClr());
 public slots:
     void onSwitchWindow(EWindowType type);
 private:

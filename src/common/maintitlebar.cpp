@@ -7,6 +7,7 @@
 #include <QLabel>
 #include <QHBoxLayout>
 #include <QToolButton>
+#include "sigslotmgr.h"
 
 #pragma execution_character_set("utf-8")
 
@@ -24,6 +25,11 @@ MainTitleBar::MainTitleBar(QWidget *parent)
     m_pHBoxLayout = new QHBoxLayout(this);
     InitFunctionBtn(m_pHBoxLayout);
     m_pHBoxLayout->setContentsMargins(10, 0, 10, 0);
+
+    refeshStyleSheet(ComStyleSheet->getThemeClr());
+    connect(SigSlotMgr::inst(), &SigSlotMgr::sigChangeTheme, this, [=](EThemeColor clr){
+        refeshStyleSheet(clr);
+        }, Qt::QueuedConnection);
 }
 
 void MainTitleBar::mousePressEvent(QMouseEvent *event)
@@ -40,6 +46,56 @@ void MainTitleBar::mousePressEvent(QMouseEvent *event)
     event->ignore();
 #else
 #endif
+}
+
+void MainTitleBar::refeshStyleSheet(EThemeColor clr)
+{
+    if (clr == eDrak) {
+        this->setStyleSheet(
+            "QToolButton "
+            "{"
+                "font-family: 'Microsoft YaHei';"
+                "background-color: #333; "
+                "color: #1296db;"
+                "border: 2px;"
+                "border-radius: 8px;"
+                "padding: 6px;"
+                "font-size: 18px;"
+            "}"
+            "QToolButton:hover "
+            "{"
+                "background-color: #444;"
+                "border: 2px solid #00CCFF;"
+            "}"
+            "QToolButton:pressed "
+            "{"
+                "background-color: #222;"
+                "border: 2px solid #00BBEE;"
+            "}");
+    } else {
+        this->setStyleSheet(
+            "QToolButton "
+            "{"
+            "    font-family: 'Microsoft YaHei';"
+            "    background-color: #f0f4f7;" /* 更浅的背景颜色 */
+            "    color: #333;" /* 较深的文字颜色，以保证在浅色背景上的可读性 */
+            "    border: 2px solid transparent;" /* 初始状态没有边框颜色 */
+            "    border-radius: 8px;"
+            "    padding: 6px;"
+            "    font-size: 18px;"
+            "}"
+            "QToolButton:hover "
+            "{"
+            "    background-color: #e0e4e7;" /* 悬停时稍微加深背景颜色 */
+            "    border: 2px solid #00CCFF;" /* 使用鲜明的颜色作为边框 */
+            "}"
+            "QToolButton:pressed "
+            "{"
+            "    background-color: #d0d4d7;" /* 按下时更进一步加深背景颜色 */
+            "    border: 2px solid #00BBEE;" /* 略微不同的颜色来显示按下状态 */
+            "}");
+    }
+
 }
 
 bool MainTitleBar::eventFilter(QObject *obj, QEvent *event)
@@ -97,11 +153,6 @@ void MainTitleBar::InitFunctionBtn(QHBoxLayout *pLayout)
     m_pWndBtn = new QPushButton();
     m_pWndBtn->setMaximumWidth(44);
     m_pWndBtn->setStyleSheet("padding: 2px;border: none;background-image: url(:/image/windows.png);background-repeat: no-repeat;background-position: center;");
-    //connect(m_pCloseButton, SIGNAL(clicked(bool)), this, SLOT(onClicked()));
-
-//    m_title = new QLabel();
-//    m_title->setText("RGB设置");
-//    pLayout->addWidget(m_title);
 
     m_return = new QToolButton();
     m_return->setMinimumHeight(40);
@@ -109,29 +160,6 @@ void MainTitleBar::InitFunctionBtn(QHBoxLayout *pLayout)
     m_return->setToolButtonStyle(Qt::ToolButtonTextBesideIcon);
     m_return->setIcon(QIcon(":/image/return.png"));
     m_return->setIconSize(QSize(32, 32));
-
-    QString strColor = "#1296db";
-    this->setStyleSheet(
-        "QToolButton "
-        "{"
-            "font-family: 'Microsoft YaHei';"
-            "background-color: #333; "
-            "color: " + strColor + ";"
-             "border: 2px;"
-             "border-radius: 8px;"
-             "padding: 6px;"
-             "font-size: 18px;"
-        "}"
-        "QToolButton:hover "
-        "{"
-             "background-color: #444;"
-             "border: 2px solid #00CCFF;"
-         "}"
-         "QToolButton:pressed "
-         "{"
-             "background-color: #222;"
-             "border: 2px solid #00BBEE;"
-         "}");
 
     pLayout->addWidget(m_return);
     connect(m_return, &QToolButton::released, this, [=](){

@@ -14,7 +14,7 @@ MainWidget::MainWidget(EWindowType type, QWidget *parent) :
         ui->frame_seting->setVisible(true);
     }
 
-    initStyleSheet();
+    initCtrl();
 }
 
 MainWidget::~MainWidget()
@@ -31,45 +31,11 @@ void MainWidget::setWidgetType(EWindowType type)
     }
  }
 
-void MainWidget::initStyleSheet()
+void MainWidget::initCtrl()
 {
-    this->setStyleSheet("QPushButton { padding: 2px;}"
-                        "QToolButton {"
-                        "background-color: #404040; color: #00FFCC;"
-                        "border: 2px;"
-                        "border-radius: 8px;"
-                        "padding: 6px;"
-                        "font-size: 16px;"
-                        "}"
-                        "QToolButton:hover {"
-                        "background-color: #444;"
-                        "border: 2px solid #00CCFF;"
-                        "}"
-                        "QToolButton:pressed {"
-                        "background-color: #222;"
-                        "border: 2px solid #00BBEE;"
-                        "}" );
-
     ui->btn_select->setMinimumHeight(40);
     ui->btn_select->setToolButtonStyle(Qt::ToolButtonTextBesideIcon);
     ui->btn_select->setIconSize(QSize(32, 32));
-//    ui->btn_select->setStyleSheet(
-//        "QToolButton {"
-//        "background-color: #333; color: #00FFCC;"
-//        "border: 2px;"
-//        "border-radius: 8px;"
-//        "padding: 6px;"
-//        "font-size: 16px;"
-//        "}"
-//        "QToolButton:hover {"
-//        "background-color: #444;"
-//        "border: 2px solid #00CCFF;"
-//        "}"
-//        "QToolButton:pressed {"
-//        "background-color: #222;"
-//        "border: 2px solid #00BBEE;"
-//        "}"
-//        );
 
     ui->add->setText("+");
     ui->sub->setText("-");

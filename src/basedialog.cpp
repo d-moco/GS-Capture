@@ -9,7 +9,8 @@
 #include <QListView>
 #include <QGraphicsDropShadowEffect>
 #include <QtMath>
-//#include
+#include <QDebug>
+#include "sigslotmgr.h"
 
 #include "maindialog.h"
 
@@ -28,6 +29,9 @@ BaseDialog::BaseDialog(QWidget *parent) :
 
     initWidget();
     initTheme();
+
+    refeshStyleSheet(ComStyleSheet->getThemeClr());
+    connect(this, &BaseDialog::sigChangeTheme, SigSlotMgr::inst(), &SigSlotMgr::sigChangeTheme);
 }
 
 BaseDialog::~BaseDialog()
@@ -61,113 +65,28 @@ void BaseDialog::initWidget()
         set.exec();
     });
     ui->horizontalLayout->addWidget(m_titleBar);
-    initToolButton();
 
-    ui->btn_hsjcx->setStyleSheet(
-        "QToolButton {"
-        "   background-color: #2c3e50;" // 深色背景
-        "   border: none;"
-        "   border-radius: 10px;"
-        "   padding: 10px;"
-        "   margin: 4px;"
-        "   font-size:13;"
-        "}"
-        "QToolButton:hover {"
-        "   background-color: #34495e;" // 稍微变亮一点的深色背景
-        "   border: 2px solid #3498db;" // 科技蓝边框
-        "}"
-        "QToolButton:pressed {"
-        "   background-color: #ecf0f1;" // 浅色背景，模拟按下效果
-        "   color: #2c3e50;" // 文字颜色变为深色
-        "   border: 2px solid #e74c3c;" // 警告红边框，增加对比度
-        "}"
-        "QToolButton:disabled {"
-        "   background-color: #bdc3c7;" // 灰色背景表示禁用状态
-        "   color: #ecf0f1;"
-        "}"
-        );
+    initToolButton();
 
     connect( ui->btn_hsjcx, &QToolButton::released, this, [=](){
         //this->hide();
         MainDialog main;
         main.exec();
     });
-
-    ui->btn_hxfgcx->setStyleSheet(
-        "QToolButton {"
-        "   background-color: #2c3e50;" // 深色背景
-        "   border: none;"
-        "   border-radius: 10px;"
-        "   padding: 10px;"
-        "   margin: 4px;"
-        "}"
-        "QToolButton:hover {"
-        "   background-color: #34495e;" // 稍微变亮一点的深色背景
-        "   border: 2px solid #3498db;" // 科技蓝边框
-        "}"
-        "QToolButton:pressed {"
-        "   background-color: #ecf0f1;" // 浅色背景，模拟按下效果
-        "   color: #2c3e50;" // 文字颜色变为深色
-        "   border: 2px solid #e74c3c;" // 警告红边框，增加对比度
-        "}"
-        "QToolButton:disabled {"
-        "   background-color: #bdc3c7;" // 灰色背景表示禁用状态
-        "   color: #ecf0f1;"
-        "}"
-        );
-
-    ui->btn_dbjcx->setStyleSheet(
-        "QToolButton {"
-        "   background-color: #2c3e50;" // 深色背景
-        "   border: none;"
-        "   border-radius: 10px;"
-        "   padding: 10px;"
-        "   margin: 4px;"
-        "}"
-        "QToolButton:hover {"
-        "   background-color: #34495e;" // 稍微变亮一点的深色背景
-        "   border: 2px solid #3498db;" // 科技蓝边框
-        "}"
-        "QToolButton:pressed {"
-        "   background-color: #ecf0f1;" // 浅色背景，模拟按下效果
-        "   color: #2c3e50;" // 文字颜色变为深色
-        "   border: 2px solid #e74c3c;" // 警告红边框，增加对比度
-        "}"
-        "QToolButton:disabled {"
-        "   background-color: #bdc3c7;" // 灰色背景表示禁用状态
-        "   color: #ecf0f1;"
-        "}"
-        );
-
-
-    ui->btn_dsygcx->setStyleSheet(
-        "QToolButton {"
-        "   background-color: #2c3e50;" // 深色背景
-        "   border: none;"
-        "   border-radius: 10px;"
-        "   padding: 10px;"
-        "   margin: 4px;"
-        "}"
-        "QToolButton:hover {"
-        "   background-color: #34495e;" // 稍微变亮一点的深色背景
-        "   border: 2px solid #3498db;" // 科技蓝边框
-        "}"
-        "QToolButton:pressed {"
-        "   background-color: #ecf0f1;" // 浅色背景，模拟按下效果
-        "   color: #2c3e50;" // 文字颜色变为深色
-        "   border: 2px solid #e74c3c;" // 警告红边框，增加对比度
-        "}"
-        "QToolButton:disabled {"
-        "   background-color: #bdc3c7;" // 灰色背景表示禁用状态
-        "   color: #ecf0f1;"
-        "}"
-        );
-
 }
 
 void BaseDialog::onStyleManagerStylesheetChanged()
 {
+    QString str = m_customStyleSheet->currentTheme();
+    if (str.contains("light_")) {
+        ComStyleSheet->setThemeClr(eLight);
+    } else {
+        ComStyleSheet->setThemeClr(eDrak);
+    }
+
+    emit sigChangeTheme(ComStyleSheet->getThemeClr());
     qApp->setStyleSheet(m_customStyleSheet->styleSheet());
+    refeshStyleSheet(ComStyleSheet->getThemeClr());
 }
 
 void BaseDialog::initToolButton()
@@ -175,6 +94,59 @@ void BaseDialog::initToolButton()
     connect(ui->btn_hsjcx, &QToolButton::released, this, [=](){
 
     });
+}
+
+void BaseDialog::refeshStyleSheet(EThemeColor clr) {
+    if (clr == eDrak) {
+        this->setStyleSheet(
+            "QToolButton {"
+            "   background-color: #2c3e50;" // 深色背景
+            "   border: none;"
+            "   border-radius: 10px;"
+            "   padding: 10px;"
+            "   margin: 4px;"
+            "   font-size:13;"
+            "   color: #ecf0f1;"
+            "}"
+            "QToolButton:hover {"
+            "   background-color: #34495e;" // 稍微变亮一点的深色背景
+            "   border: 2px solid #3498db;" // 科技蓝边框
+            "}"
+            "QToolButton:pressed {"
+            "   background-color: #ecf0f1;" // 浅色背景，模拟按下效果
+            "   color: #2c3e50;" // 文字颜色变为深色
+            "   border: 2px solid #e74c3c;" // 警告红边框，增加对比度
+            "}"
+            "QToolButton:disabled {"
+            "   background-color: #bdc3c7;" // 灰色背景表示禁用状态
+            "   color: #ecf0f1;"
+            "}"
+        );
+    } else {
+        this->setStyleSheet(
+            "QToolButton {"
+            "    background-color: #ecf0f1;" /* 浅色背景 */
+            "    border: none;"
+            "    border-radius: 10px;"
+            "    padding: 10px;"
+            "    margin: 4px;"
+            "    font-size: 13px;"
+            "    color: #2c3e50;" /* 深色文字 */
+            "}"
+            "QToolButton:hover {"
+            "    background-color: #dfe4ea;" /* 稍微变暗一点的浅色背景 */
+            "    border: 2px solid #3498db;" /* 科技蓝边框 */
+            "}"
+            "QToolButton:pressed {"
+            "    background-color: #bdc3c7;" /* 更浅的灰色背景，作为按下效果 */
+            "    color: #566573;" /* 更深的文字颜色 */
+            "    border: 2px solid #e74c3c;" /* 警告红边框，增加对比度 */
+            "}"
+            "QToolButton:disabled {"
+            "    background-color: #bdc3c7;" /* 更浅的灰色背景表示禁用状态 */
+            "    color: #ecf0f1;" /* 或者选择更浅的颜色以确保与背景对比度良好 */
+            "}");
+    }
 }
 
 void BaseDialog::paintEvent(QPaintEvent *event)

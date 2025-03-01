@@ -454,7 +454,7 @@
            <bool>false</bool>
           </property>
           <property name="text">
-           <string>选择燃料</string>
+           <string>选择染料</string>
           </property>
           <property name="icon">
            <iconset resource="img.qrc">

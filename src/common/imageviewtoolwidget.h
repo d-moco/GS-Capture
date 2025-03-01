@@ -4,13 +4,15 @@
 #include <QWidget>
 #include <QToolButton>
 #include "define.h"
+#include "istylesheet.h"
 
-class ImageViewToolWidget : public QWidget
+class ImageViewToolWidget : public QWidget, public IStyleSheet
 {
     Q_OBJECT
 public:
     explicit ImageViewToolWidget(QWidget *parent = nullptr);
 
+    virtual void refeshStyleSheet(EThemeColor clr = ComStyleSheet->getThemeClr());
 private:
     void init();
 signals:

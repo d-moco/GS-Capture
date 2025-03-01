@@ -37,7 +37,6 @@ private slots:
     void zoomIn();
     void zoomOut();
     void normalSize();
-    void fitToWindow();
 
 private:
     void createActions();

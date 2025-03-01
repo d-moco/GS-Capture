@@ -3,6 +3,7 @@
 #include "mainwidget.h"
 #include "imagemanager.h"
 #include "imageeditwidget.h"
+#include "commonstylesheet.h"
 
 MainDialog::MainDialog(QWidget *parent) :
     QDialog(parent),
@@ -13,8 +14,21 @@ MainDialog::MainDialog(QWidget *parent) :
     this->setWindowFlags(Qt::FramelessWindowHint);
     this->setAttribute(Qt::WA_TranslucentBackground, true);
 
-    QString strColor = "#1296db";
-    this->setStyleSheet(
+    m_titleBar = new MainTitleBar();
+    connect(m_titleBar, &MainTitleBar::sigSwitchWnd, this, &MainDialog::onSwitchWindow);
+    ui->horizontalLayout->addWidget(m_titleBar);
+
+    onSwitchWindow(eMainWnd);
+
+    refeshStyleSheet();
+}
+
+
+void MainDialog::refeshStyleSheet(EThemeColor clr)
+{
+    QString strColor = ComStyleSheet->getThemeClr() == eDrak ? DRAK_TITLE_BAR_FONT_COLOR : LIGHT_TITLE_BAR_FONT_COLOR;
+    if (clr == eDrak) {
+        this->setStyleSheet(""
         "QPushButton { padding: 2px;}"
         "QToolButton "
         "{"
@@ -36,14 +50,15 @@ MainDialog::MainDialog(QWidget *parent) :
              "background-color: #222;"
              "border: 2px solid #00BBEE;"
          "}");
-
-
-    m_titleBar = new MainTitleBar();
-    connect(m_titleBar, &MainTitleBar::sigSwitchWnd, this, &MainDialog::onSwitchWindow);
-    ui->horizontalLayout->addWidget(m_titleBar);
-
-    onSwitchWindow(eMainWnd);
+    } else {
+        this->setStyleSheet(
+            "QPushButton { padding: 2px;}"
+            "QToolButton { font-family: 'Microsoft YaHei'; background-color: #FFFFFF; color: #333333; border: 2px solid #CCCCCC; border-radius: 8px; padding: 6px; font-size: 18px; }"
+            "QToolButton:hover { background-color: #F0F0F0; border: 2px solid #00CCFF; }"
+            "QToolButton:pressed { background-color: #E0E0E0; border: 2px solid #00BBEE; }");
+    }
 }
+
 
 MainDialog::~MainDialog()
 {

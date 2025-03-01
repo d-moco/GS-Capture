@@ -18,8 +18,9 @@ public:
     ~MainWidget();
 
     void setWidgetType(EWindowType type);
+
 private:
-    void initStyleSheet();
+    void initCtrl();
 private:
     Ui::MainWidget *ui;
 };

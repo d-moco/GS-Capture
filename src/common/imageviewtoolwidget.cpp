@@ -7,30 +7,11 @@ ImageViewToolWidget::ImageViewToolWidget(QWidget *parent)
     setAttribute(Qt::WA_TranslucentBackground); // 设置背景透明
     setWindowFlags(Qt::FramelessWindowHint); // 去掉窗口边框
     init();
+    refeshStyleSheet();
 }
 
 void ImageViewToolWidget::init()
 {
-    this->setStyleSheet("QPushButton { padding: 2px;}"
-                        "QToolButton {"
-                        "background-color: #404040; color: #00FFCC;"
-                        "border: 2px;"
-                        "border-radius: 8px;"
-                        "padding: 6px;"
-                        "font-size: 16px;"
-                        "min-width: 20px;"
-                        "min-height: 20px;"
-                        "}"
-                        "QToolButton:hover {"
-                        "background-color: #444;"
-                        "border: 2px solid #00CCFF;"
-                        "}"
-                        "QToolButton:pressed {"
-                        "background-color: #222;"
-                        "border: 2px solid #00BBEE;"
-                        "}" );
-
-
     QHBoxLayout* pHBox = new QHBoxLayout(this);
 
     m_pAdd = new QToolButton();
@@ -80,4 +61,58 @@ void ImageViewToolWidget::init()
      pHBox->addStretch(1);
 
     this->setMinimumHeight(30);
+}
+
+void ImageViewToolWidget::refeshStyleSheet(EThemeColor clr)
+{
+    if (clr == eDrak) {
+        this->setStyleSheet(
+            "QPushButton { padding: 2px;}"
+            "QToolButton {"
+                "background-color: #404040; "
+                "color: #00FFCC;"
+                "border: 2px;"
+                "border-radius: 8px;"
+                "padding: 6px;"
+                "font-size: 16px;"
+                "min-width: 20px;"
+                "min-height: 20px;"
+            "}"
+            "QToolButton:hover {"
+                "background-color: #444;"
+                "border: 2px solid #00CCFF;"
+            "}"
+            "QToolButton:pressed {"
+                "background-color: #222;"
+                "border: 2px solid #00BBEE;"
+            "}" );
+    } else {
+        this->setStyleSheet(
+            "QPushButton "
+            "{ "
+                "padding: 2px;"
+            "}"
+            "QToolButton "
+            "{ "
+                "font-family: 'Microsoft YaHei'; "
+                "background-color: #FFFFFF; "
+                "color: #333333; "
+                "border: 2px solid #CCCCCC; "
+                "border-radius: 8px; "
+                "padding: 6px; "
+                "font-size: 18px; "
+                "min-width: 20px;"
+                "min-height: 20px;"
+            "}"
+            "QToolButton:hover "
+            "{ "
+                "background-color: #F0F0F0; "
+                "border: 2px solid #00CCFF; "
+            "}"
+            "QToolButton:pressed "
+            "{ "
+                "background-color: #E0E0E0; "
+                "border: 2px solid #00BBEE; "
+            "}");
+    }
 }
