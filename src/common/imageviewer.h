@@ -37,29 +37,20 @@ private slots:
     void zoomIn();
     void zoomOut();
     void normalSize();
-
 private:
-    void createActions();
-    void createMenus();
-    void updateActions();
-    bool saveFile(const QString &fileName);
+    void Zoom();
     void setImage(const QImage &newImage);
-    void scaleImage(double factor);
-    void adjustScrollBar(QScrollBar *scrollBar, double factor);
-
     QImage image;
-    QLabel *imageLabel;
+    QLabel *photo;
     QScrollArea *scrollArea;
     double scaleFactor = 1;
 
-#if defined(QT_PRINTSUPPORT_LIB) && QT_CONFIG(printer)
-    QPrinter printer;
-#endif
 
-//    QAction *zoomInAct;
-//    QAction *zoomOutAct;
-//    QAction *normalSizeAct;
-//    QAction *fitToWindowAct;
+    bool ZoomFlag;
+    bool RotateFlipFlag;
+
+    bool ZoomFactorFlag;
+    qreal ZoomFactor;
 };
 //! [0]
 

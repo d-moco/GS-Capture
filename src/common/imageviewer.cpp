@@ -29,23 +29,18 @@
 
 //! [0]
 ImageViewer::ImageViewer(QWidget *parent)
-   : QMainWindow(parent), imageLabel(new QLabel)
-   , scrollArea(new QScrollArea)
+   : QMainWindow(parent), photo(new QLabel)
 {
-    imageLabel->setBackgroundRole(QPalette::Base);
-    imageLabel->setSizePolicy(QSizePolicy::Ignored, QSizePolicy::Ignored);
-    imageLabel->setScaledContents(true);
+    photo->setAlignment(Qt::AlignHCenter|Qt::AlignVCenter);
+    QWidget* pwidget = new QWidget();
+    QHBoxLayout* pLayout = new QHBoxLayout(pwidget);
+    pLayout->addWidget(photo);
+    setCentralWidget(pwidget);
+    this->statusBar()->setSizeGripEnabled(false);
 
-    scrollArea->setBackgroundRole(QPalette::Dark);
-    scrollArea->setWidget(imageLabel);
-    scrollArea->setVisible(false);
-    setCentralWidget(scrollArea);
-
-    //createActions();
-
-    resize(QGuiApplication::primaryScreen()->availableSize() * 3 / 5);
-
-     this->statusBar()->setSizeGripEnabled(false);
+    ZoomFlag = false;
+    ZoomFactor = 1.0;
+    ZoomFactorFlag = true;
 }
 
 void ImageViewer::onImageOper(EImageOperation type)
@@ -71,10 +66,6 @@ void ImageViewer::onImageOper(EImageOperation type)
      }
 }
 
-//! [0]
-//! [2]
-//!
-
 bool ImageViewer::loadFile(const QString &fileName)
 {
     QImageReader reader(fileName);
@@ -86,7 +77,6 @@ bool ImageViewer::loadFile(const QString &fileName)
                                  .arg(QDir::toNativeSeparators(fileName), reader.errorString()));
         return false;
     }
-//! [2]
 
     setImage(newImage);
 
@@ -101,39 +91,9 @@ bool ImageViewer::loadFile(const QString &fileName)
 void ImageViewer::setImage(const QImage &newImage)
 {
     image = newImage;
-    if (image.colorSpace().isValid())
-        image.convertToColorSpace(QColorSpace::SRgb);
-    imageLabel->setPixmap(QPixmap::fromImage(image));
-//! [4]
-    scaleFactor = 1.0;
-
-    scrollArea->setVisible(true);
-    //fitToWindowAct->setEnabled(true);
-    updateActions();
-
-    imageLabel->adjustSize();
-    //if (!fitToWindowAct->isChecked())
-    //    imageLabel->adjustSize();
+    QImage image2 = image.scaled(photo->width(), photo->height(),Qt::KeepAspectRatio,Qt::SmoothTransformation);
+    photo->setPixmap(QPixmap::fromImage(image2));
 }
-
-//! [4]
-
-bool ImageViewer::saveFile(const QString &fileName)
-{
-    QImageWriter writer(fileName);
-
-    if (!writer.write(image)) {
-        QMessageBox::information(this, QGuiApplication::applicationDisplayName(),
-                                 tr("Cannot write %1: %2")
-                                 .arg(QDir::toNativeSeparators(fileName)), writer.errorString());
-        return false;
-    }
-    const QString message = tr("Wrote \"%1\"").arg(QDir::toNativeSeparators(fileName));
-    statusBar()->showMessage(message);
-    return true;
-}
-
-//! [1]
 
 static void initializeImageFileDialog(QFileDialog &dialog, QFileDialog::AcceptMode acceptMode)
 {
@@ -163,104 +123,96 @@ void ImageViewer::open()
     initializeImageFileDialog(dialog, QFileDialog::AcceptOpen);
 
     while (dialog.exec() == QDialog::Accepted && !loadFile(dialog.selectedFiles().first())) {}
-    scrollArea->setWidgetResizable(true);
+    //scrollArea->setWidgetResizable(true);
 }
-//! [1]
 
-
-//! [9]
-void ImageViewer::zoomIn()
-//! [9] //! [10]
+void ImageViewer::Zoom()
 {
-    scrollArea->setWidgetResizable(false);
-    scaleImage(1.25);
+    qreal pw = image.width();
+    qreal ph = image.height();
+    qreal ww = photo->width();
+    qreal wh = photo->height();
+
+    qreal widthFactor = ww / pw;
+    qreal heightFactor = wh / ph;
+
+    ZoomFactorFlag = widthFactor <= heightFactor ? true : false;
+
+    if(pw <= ww && ph <= wh)
+    {
+        ZoomFactor = 1.0;
+    }
+    else
+    {
+        if(ZoomFactorFlag)
+        {
+            ZoomFactor = widthFactor;
+        }
+        else
+        {
+            ZoomFactor = heightFactor;
+        }
+    }
+}
+
+
+void ImageViewer::zoomIn()
+{
+    if(!ZoomFlag)
+    {
+        Zoom();
+        ZoomFlag = true;
+    }
+    ZoomFactor += 0.02;
+    if(ZoomFactor >= 10.0)
+        ZoomFactor = 10.0;
+    QTransform tr = QTransform::fromScale(ZoomFactor,ZoomFactor);
+    QImage image2 = image.transformed(tr,Qt::SmoothTransformation);
+    if (image2.height() <= this->height() && image2.width() <= this->width()) {
+        photo->setPixmap(QPixmap::fromImage(image2));
+    } else {
+        //ZoomFactor = 10.0;
+    }
 }
 
 void ImageViewer::zoomOut()
 {
-    scrollArea->setWidgetResizable(false);
-    scaleImage(0.8);
+    if(!ZoomFlag)
+    {
+        Zoom();
+        ZoomFlag = true;
+    }
+    ZoomFactor -= 0.02;
+    if(ZoomFactor <= 0.01)
+        ZoomFactor = 0.01;
+    QTransform tr = QTransform::fromScale(ZoomFactor,ZoomFactor);
+    QImage image2 = image.transformed(tr,Qt::SmoothTransformation);
+
+    if (image2.height() <= this->height() && image2.width() <= this->width()) {
+        photo->setPixmap(QPixmap::fromImage(image2));
+    } else {
+        //ZoomFactor = 0.01;
+    }
 }
 
-//! [10] //! [11]
 void ImageViewer::normalSize()
-//! [11] //! [12]
 {
-    scrollArea->setWidgetResizable(true);
-    imageLabel->adjustSize();
-    scaleFactor = 1.0;
+    qreal pw = image.width();
+    qreal ph = image.height();
+    qreal ww = photo->width();
+    qreal wh = photo->height();
+    QImage image2;
+
+    if(pw <= ww && ph <= wh)
+    {
+        image2 = image;
+    }
+    else
+    {
+        image2 = image.scaled(photo->width(), photo->height(),Qt::KeepAspectRatio,Qt::SmoothTransformation);
+    }
+
+    photo->setPixmap(QPixmap::fromImage(image2));
+
+    Zoom();
 }
-//! [12]
-
-//! [17]
-void ImageViewer::createActions()
-//! [17] //! [18]
-{
-    QMenu *fileMenu = menuBar()->addMenu(tr("&File"));
-
-    QAction *openAct = fileMenu->addAction(tr("&Open..."), this, &ImageViewer::open);
-    openAct->setShortcut(QKeySequence::Open);
-
-    fileMenu->addSeparator();
-
-    QMenu *viewMenu = menuBar()->addMenu(tr("&View"));
-
-//    zoomInAct = viewMenu->addAction(tr("Zoom &In (25%)"), this, &ImageViewer::zoomIn);
-//    zoomInAct->setShortcut(QKeySequence::ZoomIn);
-//    zoomInAct->setEnabled(false);
-
-//    zoomOutAct = viewMenu->addAction(tr("Zoom &Out (25%)"), this, &ImageViewer::zoomOut);
-//    zoomOutAct->setShortcut(QKeySequence::ZoomOut);
-//    zoomOutAct->setEnabled(false);
-
-//    normalSizeAct = viewMenu->addAction(tr("&Normal Size"), this, &ImageViewer::normalSize);
-//    normalSizeAct->setShortcut(tr("Ctrl+S"));
-//    normalSizeAct->setEnabled(false);
-
-    viewMenu->addSeparator();
-
-//    fitToWindowAct = viewMenu->addAction(tr("&Fit to Window"), this, &ImageViewer::fitToWindow);
-//    fitToWindowAct->setEnabled(false);
-//    fitToWindowAct->setCheckable(true);
-//    fitToWindowAct->setShortcut(tr("Ctrl+F"));
-
-    //QMenu *helpMenu = menuBar()->addMenu(tr("&Help"));
-
-    //helpMenu->addAction(tr("&About"), this, &ImageViewer::about);
-    //helpMenu->addAction(tr("About &Qt"), &QApplication::aboutQt);
-}
-//! [18]
-
-//! [21]
-void ImageViewer::updateActions()
-//! [21] //! [22]
-{
-//    zoomInAct->setEnabled(!fitToWindowAct->isChecked());
-//    zoomOutAct->setEnabled(!fitToWindowAct->isChecked());
-//    normalSizeAct->setEnabled(!fitToWindowAct->isChecked());
-}
-//! [22]
-
-//! [23]
-void ImageViewer::scaleImage(double factor)
-//! [23] //! [24]
-{
-    scaleFactor *= factor;
-    imageLabel->resize(scaleFactor * imageLabel->pixmap(Qt::ReturnByValue).size());
-
-    adjustScrollBar(scrollArea->horizontalScrollBar(), factor);
-    adjustScrollBar(scrollArea->verticalScrollBar(), factor);
-
-//    zoomInAct->setEnabled(scaleFactor < 3.0);
-//    zoomOutAct->setEnabled(scaleFactor > 0.333);
-}
-//! [24]
-
-//! [25]
-void ImageViewer::adjustScrollBar(QScrollBar *scrollBar, double factor)
-//! [25] //! [26]
-{
-    scrollBar->setValue(int(factor * scrollBar->value()
-                            + ((factor - 1) * scrollBar->pageStep()/2)));
-}
-//! [26]

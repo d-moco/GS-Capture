@@ -13,6 +13,8 @@ ImageEditWidget::ImageEditWidget(QWidget *parent) :
     ui->vLayout->addWidget(m_imgViewTool);
     m_view = new ImageViewer();
     ui->vLayout->addWidget(m_view);
+    ui->vLayout->setStretch(0,0);
+    ui->vLayout->setStretch(1,1);
     connect(m_imgViewTool, &ImageViewToolWidget::sigImageOper, m_view, &ImageViewer::onImageOper);
 }
 
