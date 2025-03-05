@@ -15,7 +15,6 @@ SOURCES += \
     common/commonstylesheet.cpp \
     common/countdownwidget.cpp \
     common/grayscaleselector.cpp \
-    common/imageviewer.cpp \
     common/imageviewtoolwidget.cpp \
     common/maintitlebar.cpp \
     common/sigslotmgr.cpp \
@@ -23,6 +22,9 @@ SOURCES += \
     common/titlebar.cpp \
     imageeditwidget.cpp \
     imagemanager.cpp \
+    imageview/imageview.cpp \
+    imageview/photoinfo.cpp \
+    imageview/toolbar.cpp \
     main.cpp \
     maindialog.cpp \
     mainwidget.cpp \
@@ -37,7 +39,6 @@ HEADERS += \
     common/countdownwidget.h \
     common/define.h \
     common/grayscaleselector.h \
-    common/imageviewer.h \
     common/imageviewtoolwidget.h \
     common/istylesheet.h \
     common/maintitlebar.h \
@@ -46,6 +47,9 @@ HEADERS += \
     common/titlebar.h \
     imageeditwidget.h \
     imagemanager.h \
+    imageview/imageview.h \
+    imageview/photoinfo.h \
+    imageview/toolbar.h \
     maindialog.h \
     mainwidget.h \
     themeset.h \
@@ -56,6 +60,8 @@ FORMS += \
     common/countdownwidget.ui \
     imageeditwidget.ui \
     imagemanager.ui \
+    imageview/imageview.ui \
+    imageview/photoinfo.ui \
     maindialog.ui \
     mainwidget.ui \
     themeset.ui \

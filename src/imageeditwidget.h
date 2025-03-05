@@ -7,7 +7,7 @@ namespace Ui {
 class ImageEditWidget;
 }
 
-class ImageViewer;
+class ImageView;
 class ImageViewToolWidget;
 
 class ImageEditWidget : public QWidget
@@ -20,7 +20,7 @@ public:
 
 private:
     Ui::ImageEditWidget *ui;
-    ImageViewer* m_view;
+    ImageView* m_view;
     ImageViewToolWidget* m_imgViewTool;
 };
 
