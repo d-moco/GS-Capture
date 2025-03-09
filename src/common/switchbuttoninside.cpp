@@ -16,7 +16,8 @@ SwitchButtonInside::SwitchButtonInside(QWidget *parent) :
     m_nArcRadius = std::min(width(), height()); // 默认半径
     m_nRectWidth = width() - m_nArcRadius;
     //m_colorActive = qRgb(60, 189, 136);64
-    m_colorActive = qRgb(0, 255, 204);
+    //m_colorActive = qRgb(0, 255, 204);
+    m_colorActive = qRgb(100, 181, 246);
     //m_colorInactive = qRgb(167, 177, 188);
     m_colorInactive = qRgb(64, 64, 64);
 }

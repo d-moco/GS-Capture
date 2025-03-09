@@ -20,9 +20,9 @@ void CircularButton::paintEvent(QPaintEvent *event)
     painter.setRenderHint(QPainter::Antialiasing, true); // 抗锯齿
 
     if (this->isDown()) {
-        painter.setBrush(QColor("#388E3C")); // 按下时的颜色
+        painter.setBrush(QColor("#848484")); // 按下时的颜色
     } else {
-        painter.setBrush(QColor("#00FFCC")); // 正常状态下的颜色
+        painter.setBrush(QColor("#64B5F6")); // 正常状态下的颜色
     }
     painter.setPen(Qt::NoPen); // 无边框
 

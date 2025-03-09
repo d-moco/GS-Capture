@@ -84,9 +84,10 @@ void BaseDialog::onStyleManagerStylesheetChanged()
         ComStyleSheet->setThemeClr(eDrak);
     }
 
-    emit sigChangeTheme(ComStyleSheet->getThemeClr());
     qApp->setStyleSheet(m_customStyleSheet->styleSheet());
     refeshStyleSheet(ComStyleSheet->getThemeClr());
+
+    emit sigChangeTheme(ComStyleSheet->getThemeClr());
 }
 
 void BaseDialog::initToolButton()
@@ -105,7 +106,7 @@ void BaseDialog::refeshStyleSheet(EThemeColor clr) {
             "   border-radius: 10px;"
             "   padding: 10px;"
             "   margin: 4px;"
-            "   font-size:13;"
+            "   font-size:16px;"
             "   color: #ecf0f1;"
             "}"
             "QToolButton:hover {"
@@ -130,7 +131,7 @@ void BaseDialog::refeshStyleSheet(EThemeColor clr) {
             "    border-radius: 10px;"
             "    padding: 10px;"
             "    margin: 4px;"
-            "    font-size: 13px;"
+            "    font-size: 16px;"
             "    color: #2c3e50;" /* 深色文字 */
             "}"
             "QToolButton:hover {"

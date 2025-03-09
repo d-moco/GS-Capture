@@ -119,6 +119,7 @@ void MainDialog::onSwitchWindow(EWindowType type)
                 case eImageMgrWnd:
                 {
                     pwidget = new ImageManager();
+                    connect((ImageManager*)pwidget, &ImageManager::sigOpenImageEdit, this, &MainDialog::onSwitchImageAndSetImage, Qt::QueuedConnection);
                     break;
                 }
                 case eImageEditWnd:
@@ -146,6 +147,17 @@ void MainDialog::onSwitchWindow(EWindowType type)
 
                 m_currentType = type;
             }
+        }
+    }
+}
+
+void MainDialog::onSwitchImageAndSetImage(const QString& strPath)
+{
+    onSwitchWindow(eImageEditWnd);
+    if (m_wndMap.count(eImageEditWnd) > 0) {
+        ImageEditWidget* pWidget = (ImageEditWidget*)m_wndMap[eImageEditWnd];
+        if (pWidget) {
+            pWidget->switchImage(strPath);
         }
     }
 }

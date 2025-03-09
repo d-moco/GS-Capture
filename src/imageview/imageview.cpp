@@ -19,23 +19,6 @@
 #include <QFileDialog>
 #include <QTranslator>
 
-
-QStringList FileSuffix = (QStringList() << "png" <<
-                          "jpg" << "jpeg" << "bmp" <<
-                          "tif" << "tiff" << "webp" <<
-                          "gif" << "jp2" << "dds" <<
-                          "xpm" << "pnm" << "ppm" <<
-                          "pgm" << "wbmp" << "ico" <<
-                          "icns");
-
-QStringList FileFilter = (QStringList() << "*.png" <<
-                          "*.jpg" << "*.jpeg" << "*.bmp" <<
-                          "*.tif" << "*.tiff" << "*.webp" <<
-                          "*.gif" << "*.jp2" << "*.dds" <<
-                          "*.xpm" << "*.pnm" << "*.ppm" <<
-                          "*.pgm" << "*.wbmp" << "*.ico" <<
-                          "*.icns");
-
 ImageView::ImageView(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::ImageView)
@@ -54,6 +37,9 @@ ImageView::ImageView(QWidget *parent) :
     ZoomFactor = 1.0;
     ZoomFactorFlag = true;
     windowMaxState = false;
+
+    ui->photo->setStyleSheet("margin: 0; padding: 0; border: none;");
+
 }
 
 ImageView::~ImageView()
@@ -113,10 +99,36 @@ void ImageView::dropEvent(QDropEvent *event)
             ui->photo->setPixmap(FileInfo.absoluteFilePath());
             image.load(FileInfo.absoluteFilePath());
             image1.load(FileInfo.absoluteFilePath());
+            emit sigSwitchImage(FileInfo.absoluteFilePath());
             PhotoIndex = 0;
             ui->statusBar->show();
             ZoomFit();
         }
+    }
+}
+
+void ImageView::switchImage(const QString& strImg)
+{
+    QFileInfo FileInfo(strImg);
+    if(FileSuffix.contains(FileInfo.suffix(),Qt::CaseInsensitive))
+    {
+        PhotoMap.clear();
+        PhotoMap[PhotoMap.count()] = FileInfo;
+        QList<QFileInfo> fileInfoList = FileInfo.dir().entryInfoList(FileFilter);
+        fileInfoList.removeOne(FileInfo);
+        while(fileInfoList.count() > 0)
+        {
+            PhotoMap[PhotoMap.count()] = fileInfoList.takeFirst();
+        }
+
+        PhotoExist = true;
+        ui->photo->setPixmap(FileInfo.absoluteFilePath());
+        emit sigSwitchImage(FileInfo.absoluteFilePath());
+        image.load(FileInfo.absoluteFilePath());
+        image1.load(FileInfo.absoluteFilePath());
+        PhotoIndex = 0;
+        ui->statusBar->show();
+        ZoomFit();
     }
 }
 
@@ -140,7 +152,6 @@ void ImageView::ZoomIn()
         SetToolBarLabel();
     }
 }
-
 
 void ImageView::ZoomOut()
 {
@@ -180,6 +191,7 @@ void ImageView::ZoomFit()
         {
             image2 = image1.scaled(ui->photo->width(),ui->photo->height(),Qt::KeepAspectRatio,Qt::SmoothTransformation);
         }
+
         ui->photo->setPixmap(QPixmap::fromImage(image2));
 
         Zoom();
@@ -259,6 +271,7 @@ void ImageView::Open()
             }
             PhotoExist = true;
             ui->photo->setPixmap(FileInfo.absoluteFilePath());
+            emit sigSwitchImage(FileInfo.absoluteFilePath());
             image.load(FileInfo.absoluteFilePath());
             image1.load(FileInfo.absoluteFilePath());
             PhotoIndex = 0;

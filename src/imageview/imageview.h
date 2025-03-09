@@ -27,6 +27,10 @@ public:
     QMap<int,QFileInfo> GetAllFileInfo();
     void Zoom();
     void SetToolBarLabel();
+
+    void switchImage(const QString& strImg);
+signals:
+    void sigSwitchImage(const QString& strImg);
 public slots:
     void onImageOper(EImageOperation type);
 protected:

@@ -131,8 +131,23 @@
       </item>
       <item>
        <layout class="QHBoxLayout" name="horizontalLayout_8">
+        <property name="spacing">
+         <number>20</number>
+        </property>
         <item>
          <widget class="QLabel" name="label_7">
+          <property name="minimumSize">
+           <size>
+            <width>0</width>
+            <height>0</height>
+           </size>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>16777215</width>
+            <height>16777215</height>
+           </size>
+          </property>
           <property name="text">
            <string>正负片</string>
           </property>
@@ -158,8 +173,23 @@
       </item>
       <item>
        <layout class="QHBoxLayout" name="horizontalLayout_9">
+        <property name="spacing">
+         <number>20</number>
+        </property>
         <item>
          <widget class="QLabel" name="label_8">
+          <property name="minimumSize">
+           <size>
+            <width>0</width>
+            <height>0</height>
+           </size>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>16777215</width>
+            <height>16777215</height>
+           </size>
+          </property>
           <property name="text">
            <string>图像合并</string>
           </property>
@@ -185,6 +215,9 @@
       </item>
       <item>
        <layout class="QHBoxLayout" name="horizontalLayout_10">
+        <property name="spacing">
+         <number>20</number>
+        </property>
         <item>
          <widget class="QLabel" name="label_9">
           <property name="text">

@@ -1,28 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>MainDialog</class>
- <widget class="QDialog" name="MainDialog">
+ <class>ClickableFrame</class>
+ <widget class="QWidget" name="ClickableFrame">
   <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1200</width>
-    <height>800</height>
+    <width>202</width>
+    <height>236</height>
    </rect>
   </property>
-  <property name="minimumSize">
-   <size>
-    <width>1200</width>
-    <height>800</height>
-   </size>
-  </property>
   <property name="windowTitle">
-   <string>Dialog</string>
+   <string>Form</string>
   </property>
-  <layout class="QVBoxLayout" name="verticalLayout">
-   <property name="spacing">
-    <number>0</number>
-   </property>
+  <layout class="QVBoxLayout" name="verticalLayout_2">
    <property name="leftMargin">
     <number>0</number>
    </property>
@@ -36,13 +27,16 @@
     <number>0</number>
    </property>
    <item>
-    <widget class="QFrame" name="login_base">
-     <property name="styleSheet">
-      <string notr="true"/>
+    <widget class="QFrame" name="frame">
+     <property name="frameShape">
+      <enum>QFrame::StyledPanel</enum>
      </property>
-     <layout class="QVBoxLayout" name="verticalLayout_login" stretch="0,2">
+     <property name="frameShadow">
+      <enum>QFrame::Raised</enum>
+     </property>
+     <layout class="QVBoxLayout" name="verticalLayout">
       <property name="spacing">
-       <number>0</number>
+       <number>10</number>
       </property>
       <property name="leftMargin">
        <number>0</number>
@@ -54,31 +48,34 @@
        <number>0</number>
       </property>
       <property name="bottomMargin">
-       <number>0</number>
+       <number>5</number>
       </property>
       <item>
-       <layout class="QHBoxLayout" name="horizontalLayout">
-        <property name="spacing">
-         <number>0</number>
+       <widget class="QLabel" name="label_image">
+        <property name="minimumSize">
+         <size>
+          <width>200</width>
+          <height>200</height>
+         </size>
         </property>
-        <property name="leftMargin">
-         <number>0</number>
+        <property name="text">
+         <string/>
         </property>
-        <property name="topMargin">
-         <number>0</number>
+        <property name="alignment">
+         <set>Qt::AlignCenter</set>
         </property>
-        <property name="rightMargin">
-         <number>0</number>
-        </property>
-        <property name="bottomMargin">
-         <number>0</number>
-        </property>
-       </layout>
+       </widget>
       </item>
       <item>
-       <widget class="QWidget" name="widget" native="true">
+       <widget class="QLabel" name="label_img_path">
         <property name="styleSheet">
          <string notr="true"/>
+        </property>
+        <property name="text">
+         <string/>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignCenter</set>
         </property>
        </widget>
       </item>

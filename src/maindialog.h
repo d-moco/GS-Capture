@@ -21,6 +21,7 @@ public:
     virtual void refeshStyleSheet(EThemeColor clr = ComStyleSheet->getThemeClr());
 public slots:
     void onSwitchWindow(EWindowType type);
+    void onSwitchImageAndSetImage(const QString& strPath);
 private:
     Ui::MainDialog *ui;
     MainTitleBar* m_titleBar;

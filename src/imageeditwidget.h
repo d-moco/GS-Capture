@@ -18,6 +18,9 @@ public:
     explicit ImageEditWidget(QWidget *parent = nullptr);
     ~ImageEditWidget();
 
+    void switchImage(const QString& strPath);
+private:
+    void initHistogram();
 private:
     Ui::ImageEditWidget *ui;
     ImageView* m_view;

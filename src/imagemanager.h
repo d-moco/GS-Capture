@@ -1,7 +1,9 @@
 #ifndef IMAGEMANAGER_H
 #define IMAGEMANAGER_H
 
+#include <QMap>
 #include <QWidget>
+#include <QFileInfo>
 
 namespace Ui {
 class ImageManager;
@@ -15,8 +17,13 @@ public:
     explicit ImageManager(QWidget *parent = nullptr);
     ~ImageManager();
 
+    void init();
+
+signals:
+    void sigOpenImageEdit(const QString& strImgPath);
 private:
     Ui::ImageManager *ui;
+    QMap<int,QFileInfo> PhotoMap;
 };
 
 #endif // IMAGEMANAGER_H
